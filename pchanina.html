@@ -1,0 +1,648 @@
+<pre>gramy gramy!
+acha, wszystkie sprajty sa skradzione z gry Chimera w wersji 2010 <a href='http://chimera2010.com/'>http://chimera2010.com</a>.
+</pre>
+<canvas id='ekraniszcze' width='666' height='363'></canvas>
+<script>
+rand=function(sufit) { return Math.floor(Math.random()*sufit); };
+// tu się udało zachować taki nieład, że nie wiadomo nawet dlaczego działa.
+
+var ekran_sze=666,ekran_wys=363;
+var kanwa=document.getElementById("ekraniszcze");
+var kontekst=kanwa.getContext("2d");
+
+var bufor={dx:0,dy:0,reset:false,skip:false}; // z klawjatury!
+var czyKlawisz=false;
+
+window.addEventListener('keydown',
+			function(evt) {
+			    // novum:
+			    czyKlawisz=true;
+			    bufor.reset=false;
+			    bufor.skip=false;
+			    if(evt.keyCode==187) bufor.skip=true; // '='
+			    if(evt.keyCode==27) bufor.reset=true; // esc
+
+			    if(evt.keyCode==37) {bufor.dx--; bufor.dy=0;} // left arrow 37
+			    if(evt.keyCode==37) {bufor.dx--; bufor.dy=0;} // left arrow 37
+			    if(evt.keyCode==39) {bufor.dx++; bufor.dy=0;}  // right arrow 39
+			    if(evt.keyCode==38) {bufor.dy--; bufor.dx=0;}  // up arrow 38
+			    if(evt.keyCode==40) {bufor.dy++; bufor.dx=0;} // down arrow 40
+			    // tera to to już nawet niepoczebne, ale wisz:
+			    if(bufor.dx>1) bufor.dx=1;
+			    if(bufor.dx<-1) bufor.dx=-1;
+			    if(bufor.dy>1) bufor.dy=1;
+			    if(bufor.dy<-1) bufor.dy=-1;
+			},
+			false);
+
+///////////////////////////////////////////////////////////////
+//ahaha
+var gwiazdki=[];
+
+nowa_gwiazdka=function() {
+    return([rand(ekran_sze),rand(ekran_wys),rand(2),rand(2)+1]);
+}
+
+inicjuj_gwiazki=function(ile) {
+    gwiazdki=[];
+    for(var i=0;i<ile;i++) gwiazdki.push(nowa_gwiazdka());
+    return gwiazdki;
+};
+
+inicjuj_gwiazki(242);
+
+rysuj_gwiazki=function(kontekst) {
+    kontekst.fillStyle="#000000";
+    kontekst.fillRect(0,0,ekran_sze,ekran_wys);
+    for(var i=0;i<gwiazdki.length;i++) {
+	var x=gwiazdki[i][0];
+	var y=gwiazdki[i][1];
+	var kol=gwiazdki[i][2];
+	var v=gwiazdki[i][3];
+	switch(kol) {
+	    case 0: kontekst.fillStyle="#3333FF"; break;
+	    case 1: kontekst.fillStyle="#DDDDFF"; break;
+	    default: kontekst.fillStyle="#FFFFFF";
+	}
+	rozm=kol+1;//Math.ceil((kol+v)/2.0);
+	kontekst.fillRect(x,y,rozm,rozm);
+	gwiazdki[i][0]=x+v;
+	if(x>ekran_sze) {
+	    var g=nowa_gwiazdka();
+	    g[0]=-1*rand(66);
+	    gwiazdki[i]=g;
+	}
+    }
+};
+
+rysuj_napis_koniec=function(kontekst) {
+    kontekst.font="26px arial";
+    kontekst.fillStyle="#ff0000";
+    kontekst.fillText("dobranoc Panstwu.",ekran_sze/2+rand(33),ekran_wys/2+rand(3));
+}
+
+rysuj_napis_intro=function(kontekst) {
+    kontekst.font="55px arial";
+    kontekst.fillStyle="#ff0000";
+    kontekst.fillText("niezla pchanina",ekran_sze/2-200+rand(3),ekran_wys/2+rand(2));
+    kontekst.font="17px arial";
+    kontekst.fillText("- wcisnij dowolny klawisz -",20+rand(7),ekran_wys/2+123+rand(4));
+    kontekst.font="23px arial";
+    kontekst.fillText("2013.05 by drcz",ekran_sze/2-93+rand(11),ekran_wys/2+23+rand(5));
+
+    kontekst.font="51px arial";
+    kontekst.fillStyle="#ffff00";
+    kontekst.fillText("niezla pchanina",ekran_sze/2-200,ekran_wys/2);
+    kontekst.font="13px arial";
+    kontekst.fillText("- wcisnij dowolny klawisz -",20,ekran_wys/2+123);
+    kontekst.font="19px arial";
+    kontekst.fillText("2013.05 by drcz",ekran_sze/2-93,ekran_wys/2+23);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// nno...
+
+var kafel_rozm=23,kafel_marg=2;
+var KOSMOS=0,PODLOGA=1,SCIANA=2,PCHAJKA=3,GRACZ=4,ODBIJACZ=5;
+var kafle=[];
+
+loadImage=function(url){
+    var i=new Image();
+    i.src=url;
+    return(i);
+};
+
+kafle[KOSMOS]=[null];
+kafle[PODLOGA]=[loadImage('img/podloga.png')];
+kafle[SCIANA]=[null];
+kafle[PCHAJKA]=[loadImage('img/pchajka.png')];
+kafle[GRACZ]=[loadImage('img/gracz-dl.png'),
+	      loadImage('img/gracz-dr.png'),
+	      loadImage('img/gracz-ur.png'),
+	      loadImage('img/gracz-ul.png')];
+kafle[ODBIJACZ]=[loadImage('img/pchacz.png')];
+
+/////////////////////////////////////////////////////////////////////////
+
+nic=function(swiat,l,r) { return(swiat); }; // ?!
+
+idzL=function(swiat,l,r) { l.x+=l.dx; 
+			   l.y+=l.dy;
+			   return(swiat); };
+
+idzR=function(swiat,l,r) { r.x+=r.dx;
+			   r.y+=r.dy;
+			   return(swiat); };
+
+anihilacja=function(swiat,l,r) { swiat.obiekty[l.id]=null;
+                                 swiat.obiekty[r.id]=null;
+				 swiat.blysk=true;
+				 swiat.pchajek-=2; // !!!!
+                                 return(swiat); };
+
+stopL=function(swiat,l,r) { l.dx=0;
+                            l.dy=0;
+                            return(swiat); };
+
+stopR=function(swiat,l,r) { r.dx=0;
+                            r.dy=0;
+                            return(swiat); };
+
+pchniecieL=function(swiat,l,r) { l.dx=r.dx;
+                                 l.dy=r.dy;
+				 r.dx=0;
+				 r.dy=0;
+                                 return(swiat); };
+
+pchniecieR=function(swiat,l,r) { r.dx=l.dx;//swiat.obiekty[r.id].dx=swiat.obiekty[l.id].dx;
+                                 r.dy=l.dy;//swiat.obiekty[r.id].dy=swiat.obiekty[l.id].dy;
+				 l.dx=0;//swiat.obiekty[l.id].dx=0;
+				 l.dy=0;//swiat.obiekty[l.id].dy=0
+                                 return(swiat); };
+
+odbicie=function(swiat,l,r) { r.dx*=-1; l.dx*=-1;
+                              r.dy*=-1; l.dy*=-1;			       
+                               return(swiat); };
+
+/*
+odbicieR=function(swiat,l,r) {
+    oldx=l.dx;
+    oldy=l.dy;
+    l.dx=-1*r.dx;
+    l.dy=-1*r.dy;
+    r.dx=-1*oldx;
+    r.dy=-1*oldy;
+    return(swiat); };
+
+odbicieL=function(swiat,l,r) {
+    ordx=r.dx;
+    ordy=r.dy;
+    r.dx=-1*l.dx;
+    r.dy=-1*l.dy;
+    l.dx=-1*ordx;
+    l.dy=-1*ordy;
+    return(swiat); };
+*/
+odbicieR=odbicie; odbicieL=odbicie;
+
+var zderzenia=[
+//  V * > KOSMOS,  PODLOGA,  SCIANA,   PCHAJKA,    GRACZ,       ODBIJACZ
+// kosmos 
+    [     nic,     nic,      nic,      nic,         nic,        nic ],
+// podloga
+    [     nic,     nic,      nic,      idzR,        idzR,       nic ],
+// sciana
+    [     nic,     nic,      nic,      stopR,       stopR,      nic ],
+// pchajka
+    [     nic,     idzL,     stopL,    anihilacja, pchniecieL,  odbicieR ],
+// gracz
+    [     nic,     idzL,     stopL,    pchniecieR, nic,         odbicie ],
+// odbijacz
+    [     nic,     idzL,     odbicie,  odbicieL,    odbicie,     odbicie ]
+]; // ( np gracz * PCHAJKA = pchniecieR )
+
+firstNonNull=function(l) { // niepotrzebny? l[0] zawsze?
+    for(var i=0;i<l.length;i++)
+	if(l[i]!=null) return(l[i]);
+    return(null);
+};
+
+nowyswiat=function(mapa,obiekty) {
+    swiat=new Object();
+    swiat.mapa=mapa;
+    swiat.obiekty=obiekty;
+    return(swiat);
+};
+
+coswiat=function(swiat,x,y) {
+    co=[];
+    co.push({typ:swiat.mapa[y][x],x:x,y:y,dx:0,dy:0,id:-1});
+    for(var i=0;i<swiat.obiekty.length;i++) {
+	var obiekt=swiat.obiekty[i];
+	if(obiekt==null || obiekt.x!=x || obiekt.y!=y) continue;
+	obiekt.id=i;
+	co.push(obiekt);
+    }
+    return(co.reverse());
+};
+
+odsmiec=function(swiat) {
+    var noweobiekty=[];
+    for(var i=0;i<swiat.obiekty.length;i++) {
+	var obiekt=swiat.obiekty[i];
+	if(obiekt==null) continue;
+	obiekt.id=i;
+	noweobiekty.push(obiekt);
+    }
+    swiat.obiekty=noweobiekty;
+    return(swiat);
+}
+
+var WEJSCIE=1,GRA=2,WYJSCIE=3,KONIEC=0,INTRO=9;
+var cykl_tryb=INTRO;//WEJSCIE;
+var liczniki=0;
+
+cykl=function(swiat) {
+
+    switch(cykl_tryb) {
+
+    case INTRO:
+	rysuj_gwiazki(kontekst);
+	rysuj_napis_intro(kontekst);
+	if(czyKlawisz) cykl_tryb=WEJSCIE;
+	break;
+
+    case WEJSCIE:	
+	liczniki++;
+	if(liczniki<7) rysujfx(swiat,liczniki/7.0);
+	else {
+	    liczniki=0;
+	    cykl_tryb=GRA;
+	    rysuj(swiat);
+	}
+	break;
+
+    case WYJSCIE:	
+	if(liczniki++<7) rysujfx(swiat,(7-liczniki)/7.0);
+	else {
+	    liczniki=0;
+	    cykl_tryb=WEJSCIE;
+	    var poziom=swiat.poziom+1;
+	    if(poziom>=poziomy.length) cykl_tryb=KONIEC; 
+	    else {
+		swiat=zrob_swiat(poziomy[poziom]);
+		swiat.poziom=poziom;
+	    }
+	    rysuj_gwiazki(kontekst);
+	}
+	break;
+
+    case KONIEC:
+	swiat.poziom=-1;
+	rysuj_gwiazki(kontekst);
+	rysuj_napis_koniec(kontekst);
+	break;
+
+    case GRA:
+	for(var i=0;i<swiat.obiekty.length;i++) {	    
+	    var obiekt=swiat.obiekty[i];
+	    if(obiekt==null) continue;
+	    if(obiekt.typ==GRACZ) { // !!
+		obiekt.dx=bufor.dx;
+		obiekt.dy=bufor.dy;
+ 		if(obiekt.dy>0) obiekt.pozycja=0;
+		else if(obiekt.dy<0) obiekt.pozycja=2;
+		else if(obiekt.dx>0) obiekt.pozycja=1;
+		else if(obiekt.dx<0) obiekt.pozycja=3;
+		bufor.dx=0; // !!!
+		bufor.dy=0; // !!!
+	    }
+	    if(obiekt.dx==0 && obiekt.dy==0) continue;
+	    var nx=obiekt.x+obiekt.dx;
+	    var ny=obiekt.y+obiekt.dy;
+	    var co=firstNonNull(coswiat(swiat,nx,ny));
+	    if(co==null) continue; // unreach.?
+	    swiat=zderzenia[obiekt.typ][co.typ](swiat,obiekt,co);		
+	}
+	swiat=odsmiec(swiat);
+	rysuj(swiat);
+
+	/// koniec może?
+	if(swiat.pchajek<=0 || bufor.skip || bufor.reset) {
+	    bufor.skip=false;
+	    if(bufor.reset) {
+		bufor.reset=false;
+		swiat.poziom--;
+	    }
+	    cykl_tryb=WYJSCIE; // !!
+	}
+	break;
+    }
+    
+    return(swiat);
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+var polowa_sze=15,polowa_wys=8;
+var xs=Math.floor(ekran_sze/2)-polowa_sze-2, ys=-10;
+
+
+rysuj_napisy=function(kontekst,swiat) {
+    kontekst.font="22px arial";
+    kontekst.fillStyle="#ff0000";
+    kontekst.fillText("poziom "+(swiat.poziom+1),13,ekran_wys-33+rand(5));
+    kontekst.fillText("pchajek "+(swiat.pchajek),13,ekran_wys-19+rand(5));
+    kontekst.fillText("strzalki - ruch",ekran_sze-190+rand(4),ekran_wys-35+rand(5));
+    kontekst.fillText("esc - powtorz poziom",ekran_sze-190+rand(2),ekran_wys-19+rand(5));
+    kontekst.font="33px arial";
+    kontekst.fillText("niezla pchanina",13,23+rand(5));
+    kontekst.font="18px arial";
+    kontekst.fillStyle="#ffff00";
+    kontekst.fillText("poziom "+(swiat.poziom+1),7+rand(7),ekran_wys-30);
+    kontekst.fillText("pchajek "+(swiat.pchajek),7+rand(7),ekran_wys-13);
+    kontekst.fillText("strzalki - ruch",ekran_sze+rand(2)-190,ekran_wys-35+rand(7));
+    kontekst.fillText("esc - powtorz poziom",ekran_sze-190+rand(3),ekran_wys-19+rand(6));
+    kontekst.font="30px arial";
+    kontekst.fillText("niezla pchanina",12+rand(2),26+rand(2));
+}
+
+
+krechy=function(kontekst,coile,poile) {
+    kontekst.strokeStyle="rgb(0,0,0)";
+    for(i=0;i<ekran_wys;i+=coile) {
+	for(j=0;j<poile;j++) {
+          kontekst.beginPath();
+          kontekst.moveTo(0,i+j);
+          kontekst.lineTo(ekran_sze,i+j);
+          kontekst.stroke();
+        }
+    }
+}
+
+// :D
+rysujradar=function(kontekst,i,j,typ) {
+    var sze=5,wys=6,gr=1;
+    var rx=ekran_sze-sze*23,ry=0;
+
+    kontekst.beginPath();
+    kontekst.lineWidth=gr;
+    switch(typ) {
+    case PODLOGA: kontekst.strokeStyle="#ff00ff"; break;
+    case PCHAJKA: kontekst.strokeStyle="#0000ff"; break;
+    case GRACZ: kontekst.strokeStyle="#ffff00"; break;
+    case ODBIJACZ: kontekst.strokeStyle="#ff0000"; break;
+    default: return(true);
+    }
+    kontekst.rect(rx+j*sze,ry+i*wys,sze-1,wys-1);
+    kontekst.stroke();
+    return(true);
+};
+
+rysujkafel=function(kontekst,ktory,x,y) {    
+    var kafel=kafle[ktory.typ];
+    var obrazek=kafel[0];
+    if(ktory.typ==GRACZ) {
+	// ustalić ten tego, pozę.
+	obrazek=kafel[ktory.pozycja];
+    }
+    if(ktory.typ==PODLOGA) y=y+polowa_wys; // !
+    if(obrazek!=null) kontekst.drawImage(obrazek,x,y);
+    return(true);
+};
+
+rysuj=function(swiat) {
+    var wys=swiat.mapa.length;
+    var sze=swiat.mapa[0].length;
+    var x0,y0;
+
+    if(swiat.blysk) {
+	swiat.blysk=false;
+	kontekst.fillStyle="#FFFFFF";
+	kontekst.fillRect(0,0,ekran_sze,ekran_wys);
+    } else {
+	rysuj_gwiazki(kontekst);
+    }
+
+    for(var i=0;i<wys;i++) {
+	x0=xs-polowa_sze*i;
+	y0=ys+polowa_wys*i;
+	for(var j=0;j<sze;j++) {
+	    var co=coswiat(swiat,j,i);
+	    if(co!=null) {
+		co=co.reverse();
+		for(var k=0;k<co.length;k++) {
+		    var kafel=co[k];
+		    if(kafel!=null) {
+			rysujkafel(kontekst,kafel,x0,y0);
+			if(k==co.length-1)rysujradar(kontekst,i,j,kafel.typ);
+		    }
+		}
+	    }
+	    x0+=polowa_sze;
+	    y0+=polowa_wys;
+	}
+    }
+    rysuj_napisy(kontekst,swiat);
+//  krechy(kontekst,4,1);
+    return(true);
+};
+
+/// fx: ////////////////////////////////////////////////////////////////////////
+
+rysujfx=function(swiat,prawd) {
+    var wys=swiat.mapa.length;
+    var sze=swiat.mapa[0].length;
+    var x0,y0;
+    prawd=prawd*23.0;
+/*
+    if(swiat.blysk) {
+	swiat.blysk=false;
+	kontekst.fillStyle="#FFFFFF";
+    } else {
+	swiat.blysk=true;
+	kontekst.fillStyle="#000000";
+    }
+*/
+
+    rysuj_gwiazki(kontekst);
+//    kontekst.fillStyle="#000000"; // ?
+//    kontekst.fillRect(0,0,ekran_sze,ekran_wys);
+    
+    for(var i=0;i<wys;i++) {
+	x0=xs-polowa_sze*i;
+	y0=ys+polowa_wys*i;
+	for(var j=0;j<sze;j++) {
+	    var co=coswiat(swiat,j,i);
+	    if(co!=null) {
+		co=co.reverse();
+		for(var k=0;k<co.length;k++) {
+		    var kafel=co[k];
+		    if(rand(23)*1.0<=prawd && kafel!=null) {
+			rysujkafel(kontekst,kafel,x0,y0);
+			if(k==co.length-1)rysujradar(kontekst,i,j,kafel.typ);
+		    }
+		}
+	    }
+	    x0+=polowa_sze;
+	    y0+=polowa_wys;
+	}
+    }
+//    krechy(kontekst,3,1);
+    return(true);
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+tablica=function(sze,wys,init) {
+  var t=[];
+  for(i=0;i<wys;i++) {
+    t[i]=[];
+    for(j=0;j<sze;j++) t[i][j]=init;
+  }
+  return(t);
+};
+
+poziomy=[
+
+// 1
+["#######################",
+ "##.#.#############v#.##",
+ "#.>.v.###########....<#",
+ "##.#.#############.#.##",
+ "#.^.<.###..O..###>....#",
+ "##.#.######.######.#^##",
+ "#<><><><###.###><><><>#",
+ "#......####.####......#",
+ "#......####.####......#",
+ "#......####.####v.....#",
+ "#......####.####.v....#",
+ "#.................v...#",
+ "#......###.O.###...v..#",
+ "#.....^###...###....v.#",
+ "#....^.###.O.###.....v#",
+ "#...^.................#",
+ "#..^...####s####......#",
+ "#.^....####.####......#",
+ "#^.....####.####......#",
+ "#<><><>###...###<><><>#",
+ "##########.O.##########",
+ "##########...##########",
+ "#######################"],
+// 2
+["#######################",
+ "#########v#############",
+ "#########.#############",
+ "#########.#############",
+ "#########.......O######",
+ "#########.######O######",
+ "#########.......O######",
+ "#########.######.######",
+ "#########.######.######",
+ "######v..OO..###.######",
+ "######.......###.######",
+ "######...s...###.######",
+ "###...<..........######",
+ "######...........######",
+ "#########.O.O.O..######",
+ "#########........######",
+ "#########........######",
+ "#########>..........###",
+ "#######################",
+ "#######################",
+ "#######################",
+ "#######################",
+ "#######################"],
+//3
+["#######################",
+ "#######################",
+ "#####>............#####",
+ "#####.###########.#####",
+ "###v....O#####O....v###",
+ "##...##..O###...##...##",
+ "##^..##...###...##..^##",
+ "###.O...O.####...O..###",
+ "######.....#.....######",
+ "###.######O#O######V###",
+ "###.###.##O#O##.###.###",
+ "##V..................##",
+ "##..###############..##",
+ "##..###############..##",
+ "##..######...######..##",
+ "##..#####..s..#####..##",
+ "##...O..O.....O..O...##",
+ "##.^.####..O..####..^##",
+ "##########...##########",
+ "#######>........#######",
+ "###########O###########",
+ "#######################",
+ "#######################"],
+// 4
+["#######################",
+ "#.###############.....#",
+ "#.#######....####.###.#",
+ "#.#######.##.####.###.#",
+ "#.###....s##....O.###.#",
+ "#.###.##..##.##.#####.#",
+ "#.....##..##O##.......#",
+ "########..########O####",
+ "########..########.####",
+ "##.O...O...........####",
+ "##.#####OO########.####",
+ "##.#####..########O####",
+ "##.#####..########....#",
+ "##.............#####..#",
+ "##.#####OO##.#.###...O#",
+ "##.#####^^##.#.###.O###",
+ "##.#########.#......###",
+ "##^.........<##########",
+ "##.####################",
+ "##.####################",
+ "##.####################",
+ "##...........<.########",
+ "#######################"],
+// 5
+["#######################",
+ "#.....<#>........<#.O.#",
+ "#.##...#.........<#..##",
+ "#.##.O.O.#..#######..##",
+ "#.##..##.#.....O.##..##",
+ "#.s...#..#..#.#..#....#",
+ "#.....##.##.#.#.##....#",
+ "#####O##....#.###.O.OO#",
+ "#......###..#.##.....##",
+ "#..#...OO#^......##^###",
+ "#.....##.####O#######.#",
+ "#O....O...............#",
+ "###################...#",
+ "##.....<#####....##.###",
+ "##.#..#.O......####.###",
+ "##....v.#.###.......###",
+ "##..##..#.#########O###",
+ "##......#.............#",
+ "##..##..###O#######.###",
+ "##.^....###O##>..##.###",
+ "##.#..#.....###..##O###",
+ "##>.....#######O.O..###",
+ "#######################"]//,
+// 6
+// ...
+];
+
+//////////////////////////////////////////////////////////////////////////////////
+zrob_swiat=function(plan) {
+    var mapa=tablica(23,23,KOSMOS);
+    var swiat=nowyswiat(mapa,[]);
+    swiat.pchajek=0;
+    for(var i=0;i<23;i++)
+	for(var j=0;j<23;j++)
+	    switch(plan[i][j]) {
+	    case '#': swiat.mapa[i][j]=SCIANA; break;
+
+	    case '.': swiat.mapa[i][j]=PODLOGA; break;
+
+	    case 'O': swiat.mapa[i][j]=PODLOGA; swiat.obiekty.push({typ:PCHAJKA,x:j,y:i,dx:0,dy:0}); swiat.pchajek++; break;
+
+	    case '^': swiat.mapa[i][j]=PODLOGA; swiat.obiekty.push({typ:ODBIJACZ,x:j,y:i,dx:0,dy:-1}); break;
+	    case 'v': swiat.mapa[i][j]=PODLOGA; swiat.obiekty.push({typ:ODBIJACZ,x:j,y:i,dx:0,dy:1}); break;
+	    case '<': swiat.mapa[i][j]=PODLOGA; swiat.obiekty.push({typ:ODBIJACZ,x:j,y:i,dx:-1,dy:0}); break;
+	    case '>': swiat.mapa[i][j]=PODLOGA; swiat.obiekty.push({typ:ODBIJACZ,x:j,y:i,dx:1,dy:0}); break;
+
+	    case 's': swiat.mapa[i][j]=PODLOGA; swiat.obiekty.push({typ:GRACZ,x:j,y:i,dx:0,dy:0,pozycja:0}); break;
+	  }
+  return(swiat);
+};
+
+
+////////////////////////////////////////////////////////////////
+// ,,main''                                                   //
+////////////////////////////////////////////////////////////////
+
+swiat=zrob_swiat(poziomy[0]);
+swiat.poziom=0;
+setInterval(function(){ swiat=cykl(swiat); },153);
+
+
+// koniec bomba a kto czytał ten ma chuja na czole.
+</script>

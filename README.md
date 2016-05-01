@@ -1,2 +1,2 @@
 # drcz.github.io
-the only good drcz
+the only good drcz is a dead drcz
