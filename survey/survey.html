@@ -5,7 +5,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <meta name="description" content="zbiór zadań z podstaw języka metaetykietator">
  <meta name="author" content="sentione">
- <title>a survey</title>
+ <title>a questionnaire</title>
  <link href="bootstrap.css" rel="stylesheet">
  <style>
    body { color: #000; }
@@ -22,7 +22,7 @@
   <div class="my-3"></div>
   <div class="row">
     <div class="col-2"></div>
-    <div class="col-8">
+    <div class="col-8 text-center">
       <form>
         <div class="form-group small">
           <label for="q1">what is an artist?</label>
@@ -44,7 +44,7 @@
           <label for="q1">what is art?</label>
           <textarea class="form-control form-control-sm" id="q5" rows="4"></textarea>
         </div>
-        <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#send">send</button>
+        <button id="sbm" type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target="#send">submit</button>
       </form>
     </div>
     <div class="col-2"></div>
@@ -53,7 +53,7 @@
 </div>
 <footer class="page-footer font-small">
   <div class="footer-copyright text-center small py-2">
-    a survey by <a href="https://1834label.wordpress.com/">1834</a> & <a href="importantdronerecords.bandcamp.com/">important drone records</a>
+    a survey by <a href="https://1834label.wordpress.com/" target="_blank">1834</a> & <a href="importantdronerecords.bandcamp.com/" target="_blank">important drone records</a>
   </div>
 </footer>
 
@@ -61,7 +61,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body small">
-        a nonsense. please try again.
+        this doesn't seem correct, please try again.
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
     </div>
@@ -70,5 +70,14 @@
 
 <script src="jquery.min.js"></script>
 <script src="bootstrap.bundle.min.js"></script>
+<script>
+var check_filled = () => {
+    var lacks = $("textarea").filter(i=>$("textarea")[i].value.length<1).get().length
+    if(lacks>0) $("#sbm").prop("disabled",true);
+    else $("#sbm").prop("disabled",false);
+};
+$("textarea").keypress(e=>check_filled())
+check_filled()
+</script>
 </body>
 </html>
