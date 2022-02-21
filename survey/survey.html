@@ -71,12 +71,17 @@
 <script src="jquery.min.js"></script>
 <script src="bootstrap.bundle.min.js"></script>
 <script>
-var check_filled = () => {
+var check_filled = () => {    
     var lacks = $("textarea").filter(i=>$("textarea")[i].value.length<1).get().length
-    if(lacks>0) $("#sbm").prop("disabled",true);
-    else $("#sbm").prop("disabled",false);
+    if(lacks>0) { $("#sbm").prop("disabled",true); }
+    else { $("#sbm").prop("disabled",false); }
+    return true;
 };
-$("textarea").keypress(e=>check_filled())
+$("textarea").focus(()=>check_filled())
+$("textarea").blur(()=>check_filled())
+$("textarea").keydown(()=>check_filled())
+$("textarea").change(()=>check_filled())
+$("#sbm").mouseenter(()=>check_filled())
 check_filled()
 </script>
 </body>
