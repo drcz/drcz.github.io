@@ -61,9 +61,18 @@ apply φ multiple times, like this (in R):</p>
          ifelse(x &lt; 1/3, 3*x,
                 ifelse(x &lt;= 2/3, -3*x+2,
                        3*x-2))
+}
+
+trajectory &lt;- function(f,x0,n) {
+  t &lt;- c()
+  for(i in 0:n) {
+    t &lt;- append(t,x0)
+    x0 &lt;- f(x0)
+  }
+  t
 }</code></pre>
 <p>for example <code>φ(0.7) = 0.1</code>, then
-<code>φ(φ(0.7) = φ(0.1) = 0.3</code>,
+<code>φ(φ(0.7)) = φ(0.1) = 0.3</code>,
 <code>φ(φ(φ(0.7))) = φ(0.3) = 0.9</code> etc. :</p>
 <pre><code>&gt; phi(0.7)
 [1] 0.1
@@ -76,20 +85,11 @@ apply φ multiple times, like this (in R):</p>
 <p>So far so good. From the above example it’s obvious (and paper and
 pencil confirm that beyond any doubt) <code>7/10</code> is a point of
 period 4, meaning its trajectory will just oscillate through these four:
-<code>1/10</code>,<code>3/10</code>,<code>9/10</code>,<code>7/10</code>.
-Now, since there are hardly any numbers larger than <code>13</code>
-(maybe <code>23</code> and <code>42</code>) this is what we carelessly
-confirmed:</p>
-<pre><code>trajectory &lt;- function(f,x0,n) {
-  t &lt;- c()
-  for(i in 0:n) {
-    t &lt;- append(t,x0)
-    x0 &lt;- f(x0)
-  }
-  t
-}
-
-&gt; trajectory(phi,0.7,13)
+<code>1/10</code>, <code>3/10</code>, <code>9/10</code>,
+<code>7/10</code>. Now, since there are hardly any numbers larger than
+<code>13</code> (maybe <code>23</code> and <code>42</code>) this is howe
+we carelessly confirmed correctness of the above “implementation”:</p>
+<pre><code>&gt; trajectory(phi,0.7,13)
  [1] 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1</code></pre>
 <p>Great. So what’s the problem? Things got weird when we started
 plotting accumulated statistics from pulling thousands of points via the
@@ -119,9 +119,9 @@ Analytically periodic point literally left its orbit, and the further
 you go, the more it’s all over the place… In IEEE754’s defense, this
 system is chaotic (hint: <a
 href="https://en.wikipedia.org/wiki/James_A._Yorke#Contributions">Li-Yorke
-theorem</a> and look at the plot of 3-fold composition of φ and forget
-the 3 fixpoints — clearly there are 23 points of period 3, which implies
-chaos because Heil Eris!)</p>
+theorem</a> and look at the plot of 3-fold composition of φ, and forget
+the 3 fixpoints — clearly there are 23 points of period 3, which not
+only implies chaos but apparently also Chaos, <em>Heil Eris!</em>)</p>
 <p>Eventually, in order to get correct data for our experiments, we
 switched from floating-point “real numbers” to bignum-based “rational
 numbers” which are one of the builtin numerical types in Scheme (also
@@ -138,10 +138,22 @@ that?!)</p>
       &#39;()))</code></pre>
 <p>Which has no problems and can be casted to doubles afterwards:</p>
 <pre><code>scheme@(guile-user)&gt; (trajectory φ 7/10 100)
-$1 = (7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10)
+$1 = (7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10
+      1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10
+      3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10
+      9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10
+      7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10
+      1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10
+      3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10
+      9/10 7/10 1/10 3/10 9/10 7/10 1/10 3/10 9/10)
 scheme@(guile-user)&gt; (map (lambda (x) (* 1.0 x))
                           (trajectory φ 7/10 100))
-$2 = (0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9)</code></pre>
+$2 = (0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7
+      0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1
+      0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3
+      0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9
+      0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7
+      0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9)</code></pre>
 <p>These issues with floats and doubles were pretty obvious to our
 grandparents who wrote most of currently used numerical code in Fortran.
 Since then nobody knows how it works and we just have to preserve
@@ -209,7 +221,7 @@ factorial(41)=0</code></pre>
 <p>Sweet, isn’t it? And not any better with <code>unsigned int</code>,
 while relying on bignum instead only pushes these problems a bit
 further. At first glance it’s <em>a lot</em> further, but still within a
-reach a good old combinatorial explosion (go on, feed
+reach of a good old combinatorial explosion (go on, feed
 <code>trajectory</code> with <code>factorial</code> and some moderately
 large number and enjoy the flight).</p>
 <p>This can get pretty dangerous, for example I do believe programmers
