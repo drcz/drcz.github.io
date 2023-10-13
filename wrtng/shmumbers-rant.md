@@ -65,7 +65,7 @@ for example `φ(0.7) = 0.1`, then `φ(φ(0.7)) = φ(0.1) = 0.3`, `φ(φ(φ(0.7))
 > phi(0.9)
 [1] 0.7
 ```
-So far so good. From the above example it's obvious (and paper and pencil confirm that beyond any doubt) `7/10` is a point of period 4, meaning its trajectory will just oscillate through these four: `1/10`, `3/10`, `9/10`, `7/10`. Now, since there are hardly any numbers larger than `13` (maybe `23` and `42`) this is howe we carelessly confirmed correctness of the above "implementation":
+So far so good. From the above example it's obvious (and paper and pencil confirm that beyond any doubt) `7/10` is a point of period 4, meaning its trajectory will just oscillate through these four: `1/10`, `3/10`, `9/10`, `7/10`. Now, since there are hardly any numbers larger than `13` (maybe `23` and `42`) this is how we carelessly confirmed correctness of the above "implementation":
 ```
 > trajectory(phi,0.7,13)
  [1] 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1 0.3 0.9 0.7 0.1
@@ -199,7 +199,9 @@ Sweet, isn't it? And not any better with `unsigned int`, while relying on bignum
 
 This can get pretty dangerous, for example I do believe programmers in the aviation industry are nothing less than brilliant and careful, stick to the "best practices" and testing and all that. Yet, look at [this](https://www.theregister.com/2015/05/01/787_software_bug_can_shut_down_planes_generators/) (TL;DR Boeing 787 planes need to be "reset" every 200 days or so, _"because a software bug shuts down the plane's electricity generators every 248 days"_ and apparently said bug is related to hitting the limit of what `unsigned int` can represent).
 
-Similar problems hold for practically any computable arithmetic function (unless it's not defined only on a small finite subset of natural numbers). We never compute them, we have some artifacts which clearly do something and seem to fit the definitions, but they're nothing like "the real thing" — they can't be because "the real thing" doesn't even exist. It's just a opinion, but a strong one. Even the very large finite things can't exist, but for this consult e.g. [wiki](https://en.wikipedia.org/wiki/Ultrafinitism). I recall there was a neat anecdote about Esenin-Volpin in some early chapters of _"Naming Infinity: A True Story of Religious Mysticism and Mathematical Creativity"_ by Loren Graham and Jean-Michel Kantor (Harvard University Press, 2009) but I had the book borrowed, so I can't reproduce it faithfully enough now.
+Similar problems hold for practically any computable arithmetic function (unless it's not defined only on a small finite subset of natural numbers). We never compute them, we have some artifacts which clearly do something and seem to fit the definitions, but they're nothing like "the real thing" — they can't be because "the real thing" doesn't even exist. It's just a opinion, but a strong one. Even the very large finite things can't exist, but for this consult e.g. [wiki](https://en.wikipedia.org/wiki/Ultrafinitism). I recall there was a neat anecdote about Esenin-Volpin in some early chapters of _"Naming Infinity: A True Story of Religious Mysticism and Mathematical Creativity"_ by Loren Graham and Jean-Michel Kantor (Harvard University Press, 2009) but I had the book borrowed, so I can't reproduce it faithfully enough now, and I drifted away into digression, didn't I? My point is that despite the above `factorial` procedure/program lends itself (trivially) to proof by induction that it _does_ "capture the factorial function", quite obviously it _doesn't_ "capture the factorial function", since any physical storage is _nothing_ like the set of natural numbers... Inductive proofs about computer programs inside a physical computer are _never_ correct! There is only certain correspondence between initial segment of the induction/recursion and the program's behaviour (perhaps, maybe).
+
+This makes formal methods in program verification a little less attractive than they seemed, doesn't it? You can _e.g._ establish semantic equivalence of two algorithms, implement them on a digital computer, and have two semantically different programs. I did. This happens. Sorry.
 
 
 ## Conclusions
@@ -208,7 +210,7 @@ In this way too long rant I tried to make three points:
 
 + Being pedantic about the language used (like `numerals` instead of `numbers`) can save your plane from requiring to be turned off and on again.
 
-+ But even then you'll have to reset your hardware from time to time (think of a processor as a discrete dynamical system, we just lose track of its trajectory when it passes certain threshold). Neither TDD nor formal methods will save you. Accept failures and prepare plan B "just in case".
++ But even then you'll have to reset your hardware from time to time (think of a processor as a discrete dynamical system, we just lose track of its trajectory when it passes certain threshold). Neither TDD nor formal methods will save you. I don't mean one shouldn't utilise them — quite the contrary, testing is good and proofs are even better. But they are not magic powder which removes uncertainty. Accept failures and prepare plan B "just in case".
 
 + No such thing as numbers or arithmetic functions exist, but also nothing else exists, yet we can have lots of fun with all these things, and it's more important to have fun than ontological positions.
 
@@ -217,4 +219,4 @@ Although I really meant only this: **next time you ask me _"So, does it work now
 
 ---
 
-_Last upd. 2023/09/29_
+_Last rev. 2023/10/13_
