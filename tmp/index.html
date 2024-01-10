@@ -7,97 +7,132 @@
       body { background-color: black
       ; color: #7C7C7C
       ; font-family: Source Code Pro, monospace
-      ; font-size: 15px
+      ; font-size: clamp(2rem, 5vw+1rem, 7rem)
       ; font-weight: 200
       ; text-align: center }
+
+      .container { display: table ; width: 100% }
+      .break { margin-top: 2vh }
+      .row  { display: table-row }
+      .colL { display: table-cell ; width: 10% ; vertical-align: middle ; text-align: right  }
+      .colC { display: table-cell ; width: 80% ; vertical-align: middle ; text-align: center }
+      .colR { display: table-cell ; width: 10% ; vertical-align: middle ; text-align: left   } 
+
+      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% }
       
       .logo { display: block
-      ; margin-left: auto
-      ; margin-right: auto
-      ; max-height: 30vh }
+            ; border-radius: 0
+            ; margin-left: auto
+            ; margin-right: auto
+            ; max-height: 26vh }
 
       a { color: #226015
         ; text-decoration: none }
       a:hover { text-decoration: underline }
 
-      .flipper { font-size: 30px ; font-weight: bold ; color: #7C7C7C }
-      .flipper:hover { text-decoration: none ; color: #226015 }
+      .triangleL { width: 0 ; height: 0
+                 ; margin-right: 0 ; margin-left: auto
+                 ; border-top: 3vh solid transparent
+                 ; border-right: 6vh solid #7C7C7C
+                 ; border-bottom: 3vh solid transparent }
+      .triangleL:hover { border-right: 6vh solid #226015 }
 
-      .container { display: table ; width: 100% }
-      .row  { display: table-row }
-      .colL { display: table-cell ; width: 10% ; vertical-align: middle ; text-aling: right  }
-      .colC { display: table-cell ; width: 80% ; vertical-align: middle ; text-align: center }
-      .colR { display: table-cell ; width: 10% ; vertical-align: middle ; text-aling: left   } 
+      .triangleR { width: 0 ; height: 0
+                 ; margin-left: 0 ; margin-right: auto
+                 ; border-top: 3vh solid transparent
+                 ; border-left: 6vh solid #7C7C7C
+                 ; border-bottom: 3vh solid transparent }
+      .triangleR:hover { border-left: 6vh solid #226015 }
 
     </style>
   </head>
 
   <body>
     <div class="container">
+      <div class="break"></div>
       <div class="row">
-        <div class="colL"><a href="#" class="flipper" onclick="$('#flip1').flip('toggle')">🡀</a></div>
+        <div class="colL"><div class="triangleL" onclick="left_flip('#flip1')"></div></div>
         <div id="flip1" class="colC">
           <div class="front"> 
             <p> <img src="img/ET.jpg" class="logo" alt="1834" onclick="the_quote()" /> </p>
-            <p> <a href="http://1834.bandcamp.com/"><img src="img/bc.jpg" alt="bandcamp" /></a>
-              <a href="http://soundcloud.com/1834label"><img src="img/sc.jpg" alt="soundcloud" /></a>  </p>
+            <p>
+              <a href="http://1834.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp"/></a>
+              <a href="http://soundcloud.com/1834label" target="_blank"><img src="img/sc.jpg" alt="soundcloud" /></a>
+            </p>
           </div> <!-- front -->
           <div class="back">
             <p> <img src="img/IP.jpg" class="logo" alt="INNERSPACE Prod." /> </p>
-            <p> <a href="http://innerspaceprod.bandcamp.com/"><img src="img/bc.jpg" alt="bandcamp" /></a>
-              <a href="http://soundcloud.com/innerspaceprod"><img src="img/sc.jpg" alt="soundcloud" /></a>  </p>
+            <p> 
+              <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" /></a>
+              <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="img/sc.jpg" alt="soundcloud" /></a>
+            </p>
           </div> <!-- back -->
         </div> <!-- fip1 -->
-        <div class="colR"><a href="#" class="flipper" onclick="$('#flip1').flip('toggle')">🡂</a></div>
+        <div class="colR"><div class="triangleR" onclick="right_flip('#flip1')"></div></div>
       </div> <!-- row -->
+
+      <div class="break"></div>
+
       <div class="row">
-        <div class="colL"><a href="#" class="flipper" onclick="$('#flip2').flip('toggle')">🡀</a></div>
+        <div class="colL"><div class="triangleL" onclick="left_flip('#flip2')"></div></div>
         <div id="flip2" class="colC">
           <div class="front"> 
             <p>
-              <a href="http://archive.org/details/1834label?sort=-publicdate">catalogue</a><br/>
+              <a href="http://archive.org/details/1834label?sort=-publicdate" target="_blank">catalogue</a><br/>
               stream & download at archive.org
             </p>
             <p>
-              <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834">subscribe</a><br/>
+              <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">subscribe</a><br/>
               join the mailing list
             </p>
             <p>
-              <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834">contact</a><br/>
+              <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">contact</a><br/>
               get in touch for any kind of inquiries
             </p>
             <p>
-              <a href="http://drcz.github.io/survey/survey.html">?</a><br/>
+              <a href="http://drcz.github.io/survey/survey.html" target="_blank">?</a><br/>
               take a survey
             </p>
           </div> <!-- front -->        
           <div class="back">
-            <p>recommended</p>
+            <p>recommendations</p>
             <p>
-              <a href="http://galaverna.bandcamp.com/">
-                <img src="img/galaverna.jpg" alt="Galaverna"/>
-              </a>
-              <a href="http://importantdronerecords.bandcamp.com/">
-                <img src="img/importantdronerecords.jpg" alt="important drone records"/>
-              </a>
-              <a href="http://superpang.bandcamp.com/">
-                <img src="img/superpang.jpg" alt="SUPERPANG"/>
-              </a>
-              <a href="http://tectorumtapes.bandcamp.com/">
-                <img src="img/tectorumtapes.jpg" alt="Tectorum Tapes"/>
-              </a>
+              <a href="http://galaverna.bandcamp.com/" target="_blank"><img src="img/galaverna.jpg" alt="Galaverna"/></a>
+              <a href="http://importantdronerecords.bandcamp.com/"><img src="img/importantdronerecords.jpg" alt="important drone records"/></a>
+              <a href="http://superpang.bandcamp.com/" target="_blank"><img src="img/superpang.jpg" alt="SUPERPANG"/></a>
+              <a href="http://tectorumtapes.bandcamp.com/" target="_blank"><img src="img/tectorumtapes.jpg" alt="Tectorum Tapes"/></a>
             </p>
           </div> <!-- back -->
         </div> <!-- flip2 -->
-        <div class="colR"><a href="#" class="flipper" onclick="$('#flip2').flip('toggle')">🡂</a></div>
+        <div class="colR"><div class="triangleR" onclick="right_flip('#flip2')"></div></div>
       </div> <!-- row -->
     </div> <!-- container -->
 
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/jquery.flip.js"></script>
     <script>
-$("#flip1").flip({axis: 'y',trigger: 'manual'});
-$("#flip2").flip({axis: 'y',trigger: 'manual'});
+$("#flip1").flip({axis: 'y',trigger: 'manual',speed: 997});
+$("#flip2").flip({axis: 'y',trigger: 'manual',speed: 777});
+
+
+let left_flip = tgt => {
+    var state = $(tgt).data("flip-model");
+    var direction = !(state.isFlipped)
+    state.setting.reverse = direction
+    $(tgt).flip(direction)
+}
+
+let right_flip = tgt => {
+    var state = $(tgt).data("flip-model");
+    var direction = !(state.isFlipped)
+    state.setting.reverse = !direction
+    $(tgt).flip(direction)
+}
+
+
+// "Something happens when to a certain brain state a certain 'consciousness' corresponds. A genuine glimpse into what it is would be _the_ scientific achievement before which all past achievements would pale." -William James
+
+
 
 let the_quote = () => confirm("Something happens when to a certain brain state a certain “consciousness” " +
                               "corresponds. A genuine glimpse into what it is would be the scientific achievement " +
