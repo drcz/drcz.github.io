@@ -5,20 +5,24 @@
     <title>1834 - label | digital | free</title>
     <style>
       body { background-color: black
-      ; color: #7C7C7C
-      ; font-family: Source Code Pro, monospace
-      ; font-size: clamp(2rem, 5vw+1rem, 7rem)
-      ; font-weight: 200
-      ; text-align: center }
+           ; color: #7C7C7C
+           ; font-family: Source Code Pro, monospace
+           ; font-size: clamp(2rem, 5vw+1rem, 7rem)
+           ; font-weight: 200
+           ; text-align: center }
+
+      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% }
+
+      a { color: #226015
+        ; text-decoration: none }
+      a:hover { text-decoration: underline }
 
       .container { display: table ; width: 100% }
-      .break { margin-top: 2vh }
+      .break { margin-top: 3vh }
       .row  { display: table-row }
       .colL { display: table-cell ; width: 10% ; vertical-align: middle ; text-align: right  }
       .colC { display: table-cell ; width: 80% ; vertical-align: middle ; text-align: center }
       .colR { display: table-cell ; width: 10% ; vertical-align: middle ; text-align: left   } 
-
-      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% }
       
       .logo { display: block
             ; border-radius: 0
@@ -26,28 +30,33 @@
             ; margin-right: auto
             ; max-height: 26vh }
 
-      a { color: #226015
-        ; text-decoration: none }
-      a:hover { text-decoration: underline }
-
       .triangleL { width: 0 ; height: 0
                  ; margin-right: 0 ; margin-left: auto
                  ; border-top: 3vh solid transparent
-                 ; border-right: 6vh solid #7C7C7C
+                 ; border-right: 3vh solid #7C7C7C
                  ; border-bottom: 3vh solid transparent }
-      .triangleL:hover { border-right: 6vh solid #226015 }
+      .triangleL:hover { border-right: 3vh solid #226015 }
 
       .triangleR { width: 0 ; height: 0
                  ; margin-left: 0 ; margin-right: auto
                  ; border-top: 3vh solid transparent
-                 ; border-left: 6vh solid #7C7C7C
+                 ; border-left: 3vh solid #7C7C7C
                  ; border-bottom: 3vh solid transparent }
-      .triangleR:hover { border-left: 6vh solid #226015 }
+      .triangleR:hover { border-left: 3vh solid #226015 }
 
     </style>
   </head>
 
   <body>
+    <dialog id="quote" onclick="the_unquote()">
+      <p>
+        Something happens when to a certain brain state a certain “consciousness”<br/>
+        corresponds. A genuine glimpse into what it is would be <i>the</i> scientific achievement<br/>
+        before which all past achievements would pale.<br/>
+        -William James
+      </p>
+    </dialog>
+
     <div class="container">
       <div class="break"></div>
       <div class="row">
@@ -111,9 +120,9 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/jquery.flip.js"></script>
     <script>
+/* ************************************************************************ */
 $("#flip1").flip({axis: 'y',trigger: 'manual',speed: 997});
 $("#flip2").flip({axis: 'y',trigger: 'manual',speed: 777});
-
 
 let left_flip = tgt => {
     var state = $(tgt).data("flip-model");
@@ -129,15 +138,9 @@ let right_flip = tgt => {
     $(tgt).flip(direction)
 }
 
-
-// "Something happens when to a certain brain state a certain 'consciousness' corresponds. A genuine glimpse into what it is would be _the_ scientific achievement before which all past achievements would pale." -William James
-
-
-
-let the_quote = () => confirm("Something happens when to a certain brain state a certain “consciousness” " +
-                              "corresponds. A genuine glimpse into what it is would be the scientific achievement " +
-                              "before which all past achievements would pale. " +
-                              "-- William James") /// he_he
+let the_quote = () => document.getElementById("quote").showModal()
+let the_unquote = () => document.getElementById("quote").close()
+/* ************************************************************************ */
     </script>
   </body>
 </html>
