@@ -12,18 +12,21 @@
            ; text-align: center }
 
       img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% }
+      .bcsc { border-radius: 0px ; margin-left: 0 ; margin-right: 0 }
 
-      a { color: #226015
-        ; text-decoration: none }
+      a { color: #226015 ; text-decoration: none }
       a:hover { text-decoration: underline }
 
       .container { display: table ; width: 100% }
       .break { margin-top: 3vh }
       .row  { display: table-row }
-      .colL { display: table-cell ; width: 10% ; vertical-align: middle ; text-align: right  }
-      .colC { display: table-cell ; width: 80% ; vertical-align: middle ; text-align: center }
-      .colR { display: table-cell ; width: 10% ; vertical-align: middle ; text-align: left   } 
-      
+      .colL { display: table-cell ; width: 15% ; vertical-align: baseline ; text-align: right  }
+      .colC { display: table-cell ; width: 70% ; vertical-align: baseline ; text-align: center }
+      .colR { display: table-cell ; width: 15% ; vertical-align: baseline ; text-align: left   } 
+      /* sorry */
+      .colLu { display: table-cell ; width: 15% ; vertical-align: middle ; text-align: right  }      
+      .colRu { display: table-cell ; width: 15% ; vertical-align: middle ; text-align: left   } 
+
       .logo { display: block
             ; border-radius: 0
             ; margin-left: auto
@@ -32,27 +35,50 @@
 
       .triangleL { width: 0 ; height: 0
                  ; margin-right: 0 ; margin-left: auto
-                 ; border-top: 3vh solid transparent
-                 ; border-right: 3vh solid #7C7C7C
-                 ; border-bottom: 3vh solid transparent }
-      .triangleL:hover { border-right: 3vh solid #226015 }
+                 ; border-top: 2vh solid transparent
+                 ; border-right: 2vh solid #7C7C7C
+                 ; border-bottom: 2vh solid transparent }
+      .triangleL:hover { border-right: 2vh solid #226015 }
 
       .triangleR { width: 0 ; height: 0
                  ; margin-left: 0 ; margin-right: auto
-                 ; border-top: 3vh solid transparent
-                 ; border-left: 3vh solid #7C7C7C
-                 ; border-bottom: 3vh solid transparent }
-      .triangleR:hover { border-left: 3vh solid #226015 }
+                 ; border-top: 2vh solid transparent
+                 ; border-left: 2vh solid #7C7C7C
+                 ; border-bottom: 2vh solid transparent }
+      .triangleR:hover { border-left: 2vh solid #226015 }
 
+      .flippable { transform-style: preserve-3d ; perspective: 997px ; position: relative }
+
+      .side { width: 100% ; height: 100% }
+      .front.side { position: absolute
+                  ; transform: rotateY(0deg) }
+
+      .back.side { position: relative
+                 ; transform: rotateY(90deg) }
+
+      .flipright.front { animation: the_flip 0.7s ease-in forwards  }
+      .flipright.back  { animation: the_unflip 0.7s 0.7s ease-out reverse forwards }
+
+      .flipleft.front { animation: the_unflip 0.7s ease-in forwards }
+      .flipleft.back  { animation: the_flip 0.7s 0.7s ease-out reverse forwards }
+
+      @keyframes the_flip {
+          0% { transform: rotateY(0);     }
+        100% { transform: rotateY(90deg); }
+      }
+      @keyframes the_unflip {
+          0% { transform: rotateY(0deg);   }
+        100% { transform: rotateY(-90deg); }
+      }
     </style>
   </head>
 
   <body>
     <dialog id="quote" onclick="the_unquote()">
       <p>
-        Something happens when to a certain brain state a certain “consciousness”<br/>
+        “Something happens when to a certain brain state a certain `consciousness'<br/>
         corresponds. A genuine glimpse into what it is would be <i>the</i> scientific achievement<br/>
-        before which all past achievements would pale.<br/>
+        before which all past achievements would pale.”<br/>
         -William James
       </p>
     </dialog>
@@ -60,32 +86,32 @@
     <div class="container">
       <div class="break"></div>
       <div class="row">
-        <div class="colL"><div class="triangleL" onclick="left_flip('#flip1')"></div></div>
-        <div id="flip1" class="colC">
-          <div class="front"> 
+        <div class="colLu"><div class="triangleL" onclick="do_flip('#flip1','left')"></div></div>
+        <div id="flip1" class="colC flippable">
+          <div class="front side"> 
             <p> <img src="img/ET.jpg" class="logo" alt="1834" onclick="the_quote()" /> </p>
             <p>
-              <a href="http://1834.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp"/></a>
-              <a href="http://soundcloud.com/1834label" target="_blank"><img src="img/sc.jpg" alt="soundcloud" /></a>
+              <a href="http://1834.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" class="bcsc"/></a>
+              <a href="http://soundcloud.com/1834label" target="_blank"><img src="img/sc.jpg" alt="soundcloud" class="bcsc"/></a>
             </p>
           </div> <!-- front -->
-          <div class="back">
+          <div class="back side">
             <p> <img src="img/IP.jpg" class="logo" alt="INNERSPACE Prod." /> </p>
             <p> 
-              <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" /></a>
-              <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="img/sc.jpg" alt="soundcloud" /></a>
+              <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" class="bcsc"/></a>
+              <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="img/sc.jpg" alt="soundcloud" class="bcsc"/></a>
             </p>
           </div> <!-- back -->
         </div> <!-- fip1 -->
-        <div class="colR"><div class="triangleR" onclick="right_flip('#flip1')"></div></div>
+        <div class="colRu"><div class="triangleR" onclick="do_flip('#flip1','right')"></div></div>
       </div> <!-- row -->
 
       <div class="break"></div>
 
       <div class="row">
-        <div class="colL"><div class="triangleL" onclick="left_flip('#flip2')"></div></div>
-        <div id="flip2" class="colC">
-          <div class="front"> 
+        <div class="colL"><div class="triangleL" onclick="do_flip('#flip2','left')"></div></div>
+        <div id="flip2" class="colC flippable">
+          <div class="front side"> 
             <p>
               <a href="http://archive.org/details/1834label?sort=-publicdate" target="_blank">catalogue</a><br/>
               stream & download at archive.org
@@ -103,39 +129,39 @@
               take a survey
             </p>
           </div> <!-- front -->        
-          <div class="back">
+          <div class="back side">
             <p>recommendations</p>
             <p>
               <a href="http://galaverna.bandcamp.com/" target="_blank"><img src="img/galaverna.jpg" alt="Galaverna"/></a>
-              <a href="http://importantdronerecords.bandcamp.com/"><img src="img/importantdronerecords.jpg" alt="important drone records"/></a>
+              <a href="http://importantdronerecords.bandcamp.com/" target="_blank"><img src="img/importantdronerecords.jpg" alt="important drone records"/></a>
               <a href="http://superpang.bandcamp.com/" target="_blank"><img src="img/superpang.jpg" alt="SUPERPANG"/></a>
               <a href="http://tectorumtapes.bandcamp.com/" target="_blank"><img src="img/tectorumtapes.jpg" alt="Tectorum Tapes"/></a>
             </p>
           </div> <!-- back -->
         </div> <!-- flip2 -->
-        <div class="colR"><div class="triangleR" onclick="right_flip('#flip2')"></div></div>
+        <div class="colR"><div class="triangleR" onclick="do_flip('#flip2','right')"></div></div>
       </div> <!-- row -->
+
     </div> <!-- container -->
 
-    <script src="js/jquery-2.1.4.min.js"></script>
-    <script src="js/jquery.flip.js"></script>
     <script>
 /* ************************************************************************ */
-$("#flip1").flip({axis: 'y',trigger: 'manual',speed: 997});
-$("#flip2").flip({axis: 'y',trigger: 'manual',speed: 777});
 
-let left_flip = tgt => {
-    var state = $(tgt).data("flip-model");
-    var direction = !(state.isFlipped)
-    state.setting.reverse = direction
-    $(tgt).flip(direction)
+let flip_end = tgt => () => {
+  var b = document.querySelector(tgt+" .back")
+  var f = document.querySelector(tgt+" .front")
+  b.classList.remove("flipleft") ; f.classList.remove("flipleft")
+  b.classList.remove("flipright") ; f.classList.remove("flipright")
+  var h1 = b.innerHTML, h2 = f.innerHTML
+  b.innerHTML = h2 ; f.innerHTML = h1 /// XD
 }
 
-let right_flip = tgt => {
-    var state = $(tgt).data("flip-model");
-    var direction = !(state.isFlipped)
-    state.setting.reverse = !direction
-    $(tgt).flip(direction)
+document.querySelector("#flip1 .back").addEventListener("animationend",flip_end("#flip1"))
+document.querySelector("#flip2 .back").addEventListener("animationend",flip_end("#flip2"))
+
+let do_flip = (tgt,dir) => {
+    document.querySelector(tgt+" .front").classList.toggle("flip"+dir)
+    document.querySelector(tgt+" .back").classList.toggle("flip"+dir)
 }
 
 let the_quote = () => document.getElementById("quote").showModal()
