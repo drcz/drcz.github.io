@@ -1,13 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta charset="UTF-8" />
+    <link rel="icon" href="img/favicon.ico">
     <title>1834 - label | digital | free</title>
     <style>
       body { background-color: black
            ; color: #7C7C7C
            ; font-family: Source Code Pro, monospace
-           ; font-size: clamp(2rem, 5vw+1rem, 7rem)
+           ; font-size: clamp(2rem, 5vw+1rem, 15rem)
            ; font-weight: 200
            ; text-align: center }
 
@@ -47,20 +48,24 @@
                  ; border-bottom: 2vh solid transparent }
       .triangleR:hover { border-left: 2vh solid #226015 }
 
-      .flippable { transform-style: preserve-3d ; perspective: 997px ; position: relative }
+      .flippable { transform-style: preserve-3d
+                 ; perspective: 242vh
+                 ; position: relative }
 
-      .side { width: 100% ; height: 100% }
+      .side { width: 100% ; height: 100%
+            ; -webkit-backface-visibility: hidden
+            ; backface-visibility: hidden }
       .front.side { position: absolute
                   ; transform: rotateY(0deg) }
 
       .back.side { position: relative
                  ; transform: rotateY(90deg) }
 
-      .flipright.front { animation: the_flip 0.7s ease-in forwards  }
-      .flipright.back  { animation: the_unflip 0.7s 0.7s ease-out reverse forwards }
+      .flipright.front { animation: the_flip 0.42s ease-in forwards  }
+      .flipright.back  { animation: the_unflip 0.42s 0.42s ease-out reverse forwards }
 
-      .flipleft.front { animation: the_unflip 0.7s ease-in forwards }
-      .flipleft.back  { animation: the_flip 0.7s 0.7s ease-out reverse forwards }
+      .flipleft.front { animation: the_unflip 0.42s ease-in forwards }
+      .flipleft.back  { animation: the_flip 0.42s 0.42s ease-out reverse forwards }
 
       @keyframes the_flip {
           0% { transform: rotateY(0);     }
@@ -76,9 +81,9 @@
   <body>
     <dialog id="quote" onclick="the_unquote()">
       <p>
-        “Something happens when to a certain brain state a certain `consciousness'<br/>
-        corresponds. A genuine glimpse into what it is would be <i>the</i> scientific achievement<br/>
-        before which all past achievements would pale.”<br/>
+        “Something happens when to a certain brain state a certain ‘consciousness’<br>
+        corresponds. A genuine glimpse into what it is would be <i>the</i> scientific achievement<br>
+        before which all past achievements would pale.”<br>
         -William James
       </p>
     </dialog>
@@ -89,14 +94,14 @@
         <div class="colLu"><div class="triangleL" onclick="do_flip('#flip1','left')"></div></div>
         <div id="flip1" class="colC flippable">
           <div class="front side"> 
-            <p> <img src="img/ET.jpg" class="logo" alt="1834" onclick="the_quote()" /> </p>
+            <p> <img src="img/ET.png" class="logo" alt="1834" onclick="the_quote()" /> </p>
             <p>
               <a href="http://1834.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" class="bcsc"/></a>
               <a href="http://soundcloud.com/1834label" target="_blank"><img src="img/sc.jpg" alt="soundcloud" class="bcsc"/></a>
             </p>
           </div> <!-- front -->
           <div class="back side">
-            <p> <img src="img/IP.jpg" class="logo" alt="INNERSPACE Prod." /> </p>
+            <p> <img src="img/IP.png" class="logo" alt="INNERSPACE Prod." /> </p>
             <p> 
               <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" class="bcsc"/></a>
               <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="img/sc.jpg" alt="soundcloud" class="bcsc"/></a>
@@ -112,31 +117,35 @@
         <div class="colL"><div class="triangleL" onclick="do_flip('#flip2','left')"></div></div>
         <div id="flip2" class="colC flippable">
           <div class="front side"> 
-            <p>
-              <a href="http://archive.org/details/1834label?sort=-publicdate" target="_blank">catalogue</a><br/>
-              stream & download at archive.org
-            </p>
-            <p>
-              <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">subscribe</a><br/>
-              join the mailing list
-            </p>
-            <p>
-              <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">contact</a><br/>
-              get in touch for any kind of inquiries
-            </p>
-            <p>
-              <a href="http://drcz.github.io/survey/survey.html" target="_blank">?</a><br/>
-              take a survey
-            </p>
+            <div class="content">
+              <p>
+                <a href="http://archive.org/details/1834label?sort=-publicdate" target="_blank">catalogue</a><br>
+                  stream & download at archive.org
+              </p>
+              <p>
+                <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">subscribe</a><br>
+                  join the mailing list
+              </p>
+              <p>
+                <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">contact</a><br>
+                  get in touch for any kind of inquiries
+              </p>
+              <p>
+                <a href="http://drcz.github.io/survey/survey.html" target="_blank">?</a><br>
+                  take a survey
+              </p>
+            </div><!-- content -->
           </div> <!-- front -->        
           <div class="back side">
-            <p>recommendations</p>
-            <p>
-              <a href="http://galaverna.bandcamp.com/" target="_blank"><img src="img/galaverna.jpg" alt="Galaverna"/></a>
-              <a href="http://importantdronerecords.bandcamp.com/" target="_blank"><img src="img/importantdronerecords.jpg" alt="important drone records"/></a>
-              <a href="http://superpang.bandcamp.com/" target="_blank"><img src="img/superpang.jpg" alt="SUPERPANG"/></a>
-              <a href="http://tectorumtapes.bandcamp.com/" target="_blank"><img src="img/tectorumtapes.jpg" alt="Tectorum Tapes"/></a>
-            </p>
+            <div class="content">
+              <p>recommendations</p>
+              <p>
+                <a href="http://galaverna.bandcamp.com/" target="_blank"><img src="img/galaverna.jpg" alt="Galaverna"></a>
+                <a href="http://importantdronerecords.bandcamp.com/" target="_blank"><img src="img/importantdronerecords.jpg" alt="important drone records"></a>
+                <a href="http://superpang.bandcamp.com/" target="_blank"><img src="img/superpang.jpg" alt="SUPERPANG"></a>
+                <a href="http://tectorumtapes.bandcamp.com/" target="_blank"><img src="img/tectorumtapes.jpg" alt="Tectorum Tapes"></a>
+              </p>
+            </div> <!-- content -->
           </div> <!-- back -->
         </div> <!-- flip2 -->
         <div class="colR"><div class="triangleR" onclick="do_flip('#flip2','right')"></div></div>
@@ -146,7 +155,6 @@
 
     <script>
 /* ************************************************************************ */
-
 let flip_end = tgt => () => {
   var b = document.querySelector(tgt+" .back")
   var f = document.querySelector(tgt+" .front")
@@ -154,14 +162,16 @@ let flip_end = tgt => () => {
   b.classList.remove("flipright") ; f.classList.remove("flipright")
   var h1 = b.innerHTML, h2 = f.innerHTML
   b.innerHTML = h2 ; f.innerHTML = h1 /// XD
+  document.body.style.overflow = "auto"
 }
 
 document.querySelector("#flip1 .back").addEventListener("animationend",flip_end("#flip1"))
 document.querySelector("#flip2 .back").addEventListener("animationend",flip_end("#flip2"))
 
 let do_flip = (tgt,dir) => {
-    document.querySelector(tgt+" .front").classList.toggle("flip"+dir)
-    document.querySelector(tgt+" .back").classList.toggle("flip"+dir)
+  document.body.style.overflow = "hidden"
+  document.querySelector(tgt+" .front").classList.toggle("flip"+dir)
+  document.querySelector(tgt+" .back").classList.toggle("flip"+dir)
 }
 
 let the_quote = () => document.getElementById("quote").showModal()
