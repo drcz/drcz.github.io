@@ -18,9 +18,6 @@
       a { color: #226015 ; text-decoration: none }
       a:hover { text-decoration: underline }
 
-      a.owl { color: #7C7C7C ; text-decoration: none }
-      a:hover.owl { color: #226015 ; text-decoration: none }
-
       .container { display: table ; width: 100% }
       .break { margin-top: 3vh }
       .row  { display: table-row }
@@ -47,6 +44,13 @@
                  ; border-top: 2vh solid transparent
                  ; border-left: 2vh solid #7C7C7C
                  ; border-bottom: 2vh solid transparent }
+
+      /*
+      a.owl { color: #7C7C7C ; text-decoration: none ; font-size: 4vh }
+      a:hover.owl { color: #226015 ; text-decoration: none }
+      */
+      .owl-glyph { height: 6vh ; width: 12vh ; stroke: #7C7C7C ; fill: black}
+      .owl-glyph:hover { stroke: #226015 }
 
       .triangle-frame:hover .triangleL { border-right: 2vh solid #226015 }
       .triangle-frame:hover .triangleR { border-left: 2vh solid #226015 }
@@ -183,7 +187,16 @@
         <div class="colL"></div>
         <div class="colC">
           <p>
-            <a href="http://drcz.github.io/survey/survey.html" class="owl" target="_blank">&#x1F788;<sub>&#x1F79F;</sub>&#x1F788;</a>
+            <a href="http://drcz.github.io/survey/survey.html" class="owl" target="_blank">
+              <svg class="owl-glyph">
+                <circle cx="35%" cy="45%" r="20%" stroke-width="6%" />
+                <circle cx="65%" cy="45%" r="20%" stroke-width="6%" />
+                <circle cx="40%" cy="45%" r="12%" stroke-width="9%" />
+                <circle cx="60%" cy="45%" r="12%" stroke-width="9%" />
+                <ellipse cx="50%" cy="73%" rx="5%" ry="17%" stroke-width="4%" />
+              </svg> 
+              <!-- &#x1F788;<sub>&#x1F79F;</sub>&#x1F788; -->
+            </a>
           </p>
         </div> <!-- colC -->
         <div class="colR"></div>        
