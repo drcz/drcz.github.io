@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <title>1834 - label | digital | free</title>
     <style>
       body { background-color: black
@@ -18,15 +18,15 @@
       a { color: #226015 ; text-decoration: none }
       a:hover { text-decoration: underline }
 
+      a.owl { color: #7C7C7C ; text-decoration: none }
+      a:hover.owl { color: #226015 ; text-decoration: none }
+
       .container { display: table ; width: 100% }
       .break { margin-top: 3vh }
       .row  { display: table-row }
-      .colL { display: table-cell ; width: 15% ; vertical-align: baseline ; text-align: right  }
+      .colL { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: right  }
       .colC { display: table-cell ; width: 70% ; vertical-align: baseline ; text-align: center }
-      .colR { display: table-cell ; width: 15% ; vertical-align: baseline ; text-align: left   } 
-      /* sorry */
-      .colLu { display: table-cell ; width: 15% ; vertical-align: middle ; text-align: right  }      
-      .colRu { display: table-cell ; width: 15% ; vertical-align: middle ; text-align: left   } 
+      .colR { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: left   } 
 
       .logo { display: block
             ; border-radius: 0
@@ -58,23 +58,24 @@
       .side { width: 100% ; height: 100%
             ; -webkit-backface-visibility: hidden
             ; backface-visibility: hidden }
+
       .front.side { position: absolute
                   ; transform: rotateY(0deg) }
 
       .back.side { position: relative
                  ; transform: rotateY(90deg) }
 
-      .flipright.front { animation: the_flip 0.42s ease-in forwards  }
-      .flipright.back  { animation: the_unflip 0.42s 0.42s ease-out reverse forwards }
+      .flipright.front { animation: flip_ccw 0.42s ease-in forwards  }
+      .flipright.back  { animation: flip_cw 0.42s 0.42s ease-out reverse forwards }
 
-      .flipleft.front { animation: the_unflip 0.42s ease-in forwards }
-      .flipleft.back  { animation: the_flip 0.42s 0.42s ease-out reverse forwards }
+      .flipleft.front { animation: flip_cw 0.42s ease-in forwards }
+      .flipleft.back  { animation: flip_ccw 0.42s 0.42s ease-out reverse forwards }
 
-      @keyframes the_flip {
+      @keyframes flip_ccw {
           0% { transform: rotateY(0);     }
         100% { transform: rotateY(90deg); }
       }
-      @keyframes the_unflip {
+      @keyframes flip_cw {
           0% { transform: rotateY(0deg);   }
         100% { transform: rotateY(-90deg); }
       }
@@ -82,7 +83,7 @@
   </head>
 
   <body>
-    <dialog id="quote" onclick="the_unquote()">
+    <dialog id="quote1" onclick="the_unquote(1)">
       <p>
         “Something happens when to a certain brain state a certain ‘consciousness’<br>
         corresponds. A genuine glimpse into what it is would be <i>the</i> scientific achievement<br>
@@ -91,38 +92,47 @@
       </p>
     </dialog>
 
+    <dialog id="quote2" onclick="the_unquote(2)">
+      <p>
+        “The owls are not what they seem.”<br>
+        -The Giant
+      </p>
+    </dialog>
+
     <div class="container">
+
       <div class="break"></div>
+
       <div class="row">
-        <div class="colLu">
+        <div class="colL">
           <div class="triangle-frame" onclick="do_flip('#flip1','left')">
             <div class="triangleL"></div>
           </div>
         </div>
         <div id="flip1" class="colC flippable">
           <div class="front side"> 
-            <p> <img src="img/ET.png" class="logo" alt="1834" onclick="the_quote()" /> </p>
+            <p> <img src="ET.png" class="logo" alt="1834" onclick="the_quote(1)"> </p>
             <p>
-              <a href="http://1834.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" class="bcsc"/></a>
-              <a href="http://soundcloud.com/1834label" target="_blank"><img src="img/sc.jpg" alt="soundcloud" class="bcsc"/></a>
+              <a href="http://1834.bandcamp.com/" target="_blank"><img src="bc.jpg" alt="bandcamp" class="bcsc"/></a>
+              <a href="http://soundcloud.com/1834label" target="_blank"><img src="sc.jpg" alt="soundcloud" class="bcsc"/></a>
             </p>
           </div> <!-- front -->
           <div class="back side">
-            <p> <img src="img/IP.png" class="logo" alt="INNERSPACE Prod." /> </p>
+            <p> <img src="IP.png" class="logo" alt="INNERSPACE Prod."  onclick="the_quote(2)"> </p>
             <p> 
-              <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="img/bc.jpg" alt="bandcamp" class="bcsc"/></a>
-              <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="img/sc.jpg" alt="soundcloud" class="bcsc"/></a>
+              <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="bc.jpg" alt="bandcamp" class="bcsc"/></a>
+              <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="sc.jpg" alt="soundcloud" class="bcsc"/></a>
             </p>
           </div> <!-- back -->
         </div> <!-- fip1 -->
-        <div class="colRu">
+        <div class="colR">
           <div class="triangle-frame" onclick="do_flip('#flip1','right')">
             <div class="triangleR"></div>
           </div>
         </div>
       </div> <!-- row -->
 
-      <div class="break"></div>
+     <div class="break"></div>
 
       <div class="row">
         <div class="colL">
@@ -145,24 +155,21 @@
                 <a href="http://1834.bandcamp.com/contact?b=757034163&n=1834" target="_blank">contact</a><br>
                   get in touch for any kind of inquiries
               </p>
-              <p>
-                <a href="http://drcz.github.io/survey/survey.html" target="_blank">?</a><br>
-                  take a survey
-              </p>
             </div><!-- content -->
           </div> <!-- front -->        
           <div class="back side">
             <div class="content">
               <p>recommendations</p>
               <p>
-                <a href="http://galaverna.bandcamp.com/" target="_blank"><img src="img/galaverna.jpg" alt="Galaverna"></a>
-                <a href="http://importantdronerecords.bandcamp.com/" target="_blank"><img src="img/importantdronerecords.jpg" alt="important drone records"></a>
-                <a href="http://superpang.bandcamp.com/" target="_blank"><img src="img/superpang.jpg" alt="SUPERPANG"></a>
-                <a href="http://tectorumtapes.bandcamp.com/" target="_blank"><img src="img/tectorumtapes.jpg" alt="Tectorum Tapes"></a>
+                <a href="http://galaverna.bandcamp.com/" target="_blank"><img src="galaverna.jpg" alt="Galaverna"></a>
+                <a href="http://importantdronerecords.bandcamp.com/" target="_blank"><img src="importantdronerecords.jpg" alt="important drone records"></a>
+                <a href="http://superpang.bandcamp.com/" target="_blank"><img src="superpang.jpg" alt="SUPERPANG"></a>
+                <a href="http://tectorumtapes.bandcamp.com/" target="_blank"><img src="tectorumtapes.jpg" alt="Tectorum Tapes"></a>
               </p>
             </div> <!-- content -->
           </div> <!-- back -->
-        </div> <!-- flip2 -->
+
+        </div> <!-- flip2/colC -->
         <div class="colR">
           <div class="triangle-frame" onclick="do_flip('#flip2','right')">
             <div class="triangleR"></div>
@@ -170,32 +177,59 @@
         </div>
       </div> <!-- row -->
 
+      <div class="break"></div>
+
+      <div class="row">
+        <div class="colL"></div>
+        <div class="colC">
+          <p>
+            <a href="http://drcz.github.io/survey/survey.html" class="owl" target="_blank">🞈<sub>🞟</sub>🞈</a>
+          </p>
+        </div> <!-- colC -->
+        <div class="colR"></div>        
+      </div> <!-- row -->
+
     </div> <!-- container -->
 
+
     <script>
-/* ************************************************************************ */
+/*********************************************************************/
 let flip_end = tgt => () => {
   var b = document.querySelector(tgt+" .back")
   var f = document.querySelector(tgt+" .front")
   b.classList.remove("flipleft") ; f.classList.remove("flipleft")
   b.classList.remove("flipright") ; f.classList.remove("flipright")
   var h1 = b.innerHTML, h2 = f.innerHTML
-  b.innerHTML = h2 ; f.innerHTML = h1 /// XD
-  document.body.style.overflow = "auto"
+  b.innerHTML = h2 ; f.innerHTML = h1 /* XD */
 }
 
-document.querySelector("#flip1 .back").addEventListener("animationend",flip_end("#flip1"))
-document.querySelector("#flip2 .back").addEventListener("animationend",flip_end("#flip2"))
+let eq_sides_height = () => { /* soo nasty... */
+  var h = 0
+  for(var e of document.querySelectorAll(".content")) {
+    var h0 = parseInt(getComputedStyle(e).height)
+    if(h0>h) h = h0
+  }
+  for(var e of document.querySelectorAll(".content")) {
+    e.style.height = ""+h+"px"
+  }
+  return h
+}
 
 let do_flip = (tgt,dir) => {
-  document.body.style.overflow = "hidden"
   document.querySelector(tgt+" .front").classList.toggle("flip"+dir)
   document.querySelector(tgt+" .back").classList.toggle("flip"+dir)
 }
 
-let the_quote = () => document.getElementById("quote").showModal()
-let the_unquote = () => document.getElementById("quote").close()
-/* ************************************************************************ */
+let the_quote = n => document.getElementById("quote"+n).showModal()
+let the_unquote = n => document.getElementById("quote"+n).close()
+
+window.onload = () => {
+  document.querySelector("#flip1 .back").addEventListener("animationend",flip_end("#flip1"))
+  document.querySelector("#flip2 .back").addEventListener("animationend",flip_end("#flip2"))
+  eq_sides_height()
+  console.log("hoot!") /* )O^O( */
+}
+/*********************************************************************/
     </script>
   </body>
 </html>
