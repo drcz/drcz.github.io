@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon_ET.ico">
     <title>1834 - label | digital | free</title>
     <style>
       body { background-color: black
@@ -12,12 +13,6 @@
            ; font-weight: 200
            ; text-align: center }
 
-      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% }
-      .bcsc { border-radius: 0px ; margin-left: 0 ; margin-right: 0 }
-
-      a { color: #226015 ; text-decoration: none }
-      a:hover { text-decoration: underline }
-
       .container { display: table ; width: 100% }
       .break { margin-top: 3vh }
       .break2 { margin-top: 12vh }
@@ -25,6 +20,12 @@
       .colL { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: right  }
       .colC { display: table-cell ; width: 70% ; vertical-align: baseline ; text-align: center }
       .colR { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: left   } 
+
+      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% ; max-height: 7vh }
+      .bcsc { border-radius: 0px ; margin-left: 0 ; margin-right: 0 ; max-height: 6vh }
+
+      a { color: #226015 ; text-decoration: none }
+      a:hover { text-decoration: underline }
 
       .logo { display: block
             ; border-radius: 0
@@ -265,10 +266,24 @@ let do_flip = (tgt,dir) => {
 let the_quote = n => document.getElementById("quote"+n).showModal()
 let the_unquote = n => document.getElementById("quote"+n).close()
 
+let site_focus = () => {
+   var link = document.querySelector("link[rel~='icon']")
+   link.href = "favicon_ET.ico"
+   document.title = "1834 - label | digital | free"
+}
+
+let site_blur = () => {
+   var link = document.querySelector("link[rel~='icon']")
+   link.href = "favicon_IP.ico"
+   document.title = "INNERSPACE Prod. - sublabel | digital | free"
+}
+
 window.onload = () => {
   document.querySelector("#flip1 .back").addEventListener("animationend",flip_end("#flip1"))
   document.querySelector("#flip2 .back").addEventListener("animationend",flip_end("#flip2"))
   eq_sides_height()
+  document.onfocus = site_focus
+  document.onblur = site_blur
   console.log("hoot!") /* )O^O( */
 }
 /*********************************************************************/
