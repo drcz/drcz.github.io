@@ -15,7 +15,7 @@
 
       .container { display: table ; width: 100% }
       .break { margin-top: 3vh }
-      .break2 { margin-top: 12vh }
+      .break2 { margin-top: 9vh }
       .row  { display: table-row }
       .colL { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: right  }
       .colC { display: table-cell ; width: 70% ; vertical-align: baseline ; text-align: center }
@@ -113,14 +113,20 @@
         </div>
         <div id="flip1" class="colC flippable">
           <div class="front side"> 
-            <p> <img src="ET.png" class="logo" alt="1834" onclick="the_quote(1)"> </p>
+            <p>
+              <img src="ET.png" class="logo" alt="1834" onclick="the_quote(1)"><br>
+              label | digital | free
+            </p>
             <p>
               <a href="http://1834.bandcamp.com/" target="_blank"><img src="bc.jpg" alt="bandcamp" class="bcsc"/></a>
               <a href="http://soundcloud.com/1834label" target="_blank"><img src="sc.jpg" alt="soundcloud" class="bcsc"/></a>
             </p>
           </div> <!-- front -->
           <div class="back side">
-            <p> <img src="IP.png" class="logo" alt="INNERSPACE Prod."  onclick="the_quote(2)"> </p>
+            <p>
+              <img src="IP.png" class="logo" alt="INNERSPACE Prod."  onclick="the_quote(2)"><br>
+              sublabel
+            </p>
             <p> 
               <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="bc.jpg" alt="bandcamp" class="bcsc"/></a>
               <a href="http://soundcloud.com/innerspaceprod" target="_blank"><img src="sc.jpg" alt="soundcloud" class="bcsc"/></a>
@@ -266,26 +272,10 @@ let do_flip = (tgt,dir) => {
 let the_quote = n => document.getElementById("quote"+n).showModal()
 let the_unquote = n => document.getElementById("quote"+n).close()
 
-let site_focus = () => {
-   var link = document.querySelector("link[rel~='icon']")
-   link.href = "favicon_ET.ico"
-   document.title = "1834 - label | digital | free"
-}
-
-let site_blur = () => {
-   var link = document.querySelector("link[rel~='icon']")
-   link.href = "favicon_IP.ico"
-   document.title = "INNERSPACE Prod. - sublabel | digital | free"
-}
-
 window.onload = () => {
   document.querySelector("#flip1 .back").addEventListener("animationend",flip_end("#flip1"))
   document.querySelector("#flip2 .back").addEventListener("animationend",flip_end("#flip2"))
   eq_sides_height()
-  /*
-  document.onfocus = site_focus
-  document.onblur = site_blur
-  */
   console.log("hoot!") /* )O^O( */
 }
 /*********************************************************************/
