@@ -13,19 +13,14 @@
            ; font-weight: 200
            ; text-align: center }
 
-      .container { display: table ; width: 100% }
-      .break { margin-top: 3vh }
-      .break2 { margin-top: 9vh }
-      .row  { display: table-row }
-      .colL { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: right  }
-      .colC { display: table-cell ; width: 70% ; vertical-align: baseline ; text-align: center }
-      .colR { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: left   } 
-
-      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% ; max-height: 7vh }
-      .bcsc { border-radius: 0px ; margin-left: 0 ; margin-right: 0 ; max-height: 6vh }
 
       a { color: #226015 ; text-decoration: none }
       a:hover { text-decoration: underline }
+
+      dialog { border: none }
+
+      img { border-radius: 3px ; margin-left: 1% ; margin-right: 1% ; max-height: 7vh }
+      .bcsc { border-radius: 0px ; margin-left: 0 ; margin-right: 0 ; max-height: 6vh }
 
       .logo { display: block
             ; border-radius: 0
@@ -49,6 +44,14 @@
 
       .owl-glyph { height: 9vh ; width: 9vh ; stroke: #7C7C7C ; fill: black}
       .owl-glyph:hover { stroke: #226015 }
+
+      .container { display: table ; width: 100% }
+      .break { margin-top: 3vh }
+      .break2 { margin-top: 12vh }
+      .row  { display: table-row }
+      .colL { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: right  }
+      .colC { display: table-cell ; width: 70% ; vertical-align: baseline ; text-align: center }
+      .colR { display: table-cell ; width: 15% ; vertical-align: middle   ; text-align: left   } 
 
       .triangle-frame:hover .triangleL { border-right: 2vh solid #226015 }
       .triangle-frame:hover .triangleR { border-left: 2vh solid #226015 }
@@ -114,8 +117,7 @@
         <div id="flip1" class="colC flippable">
           <div class="front side"> 
             <p>
-              <img src="ET.png" class="logo" alt="1834" onclick="the_quote(1)"><br>
-              label | digital | free
+              <img src="ET.png" class="logo" alt="1834" onclick="the_quote(1)">
             </p>
             <p>
               <a href="http://1834.bandcamp.com/" target="_blank"><img src="bc.jpg" alt="bandcamp" class="bcsc"/></a>
@@ -124,8 +126,7 @@
           </div> <!-- front -->
           <div class="back side">
             <p>
-              <img src="IP.png" class="logo" alt="INNERSPACE Prod."  onclick="the_quote(2)"><br>
-              sublabel
+              <img src="IP.png" class="logo" alt="INNERSPACE Prod."  onclick="the_quote(2)">
             </p>
             <p> 
               <a href="http://innerspaceprod.bandcamp.com/" target="_blank"><img src="bc.jpg" alt="bandcamp" class="bcsc"/></a>
@@ -231,7 +232,6 @@
                 <circle cx="60%" cy="45%" r="12%" stroke-width="9%" />
                 <ellipse cx="50%" cy="73%" rx="5%" ry="17%" stroke-width="4%" />
               </svg> 
-              <!-- &#x1F788;<sub>&#x1F79F;</sub>&#x1F788; -->
             </a>
           </p>
         </div> <!-- colC -->
