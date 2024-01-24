@@ -269,7 +269,9 @@ let do_flip = (tgt,dir) => {
   document.querySelector(tgt+" .back").classList.toggle("flip"+dir)
 }
 
-let the_quote = n => document.getElementById("quote"+n).showModal()
+let the_quote = n => { document.getElementById("quote"+n).showModal() ;
+                       document.getElementById("quote"+n).blur()      }
+
 let the_unquote = n => document.getElementById("quote"+n).close()
 
 window.onload = () => {
